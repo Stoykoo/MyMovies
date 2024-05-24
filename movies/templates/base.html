@@ -4,28 +4,31 @@
     <title>MyMovies 🌍</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="MyMovies - Your favorite movies all in one place">
+    <meta name="description" content="MyMovies">
     <meta name="keywords" content="movies, films, reviews, MyMovies">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
     
 </head>
+
 <body class="bg-green-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-    <header class="h-16 bg-blue-600 text-white flex items-center justify-between px-6">
+        
         <a href="http://44.201.13.89:8000">
             <h1 class="font-bold text-5xl">MyMovies 🌍</h1>
         </a>
-        <div class="flex items-center">
-            {% if user.is_authenticated %}
-                <span class="mr-4">Hola!, {{ user.username }}</span>
-                <form method="POST" action="{% url 'logout' %}" class="inline">
-                    {% csrf_token %}
-                    <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Cerrar Sesión</button>
-                </form>
-            {% else %}
-                <a href="{% url 'admin:login' %}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Iniciar Sesión</a>
-            {% endif %}
+        <div class="flex items-center justify-center">
+            <div>
+                {% if user.is_authenticated %}
+                    <span class="mr-4">Hola, {{ user.username }}</span>
+                    <form method="POST" action="{% url 'logout' %}" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Cerrar Sesión</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'admin:login' %}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Iniciar Sesión</a>
+                {% endif %}
+            </div>
         </div>
     </header>
     <main class="container mx-auto p-4">
