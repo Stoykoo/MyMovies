@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base2.html" %}
 
 {% block article %}
 <article class="container mx-auto px-4 py-8">
@@ -70,12 +70,23 @@
     </div>
     <div style="text-align: center;">
     <div class="add-review">
-    <h1 class="font-bold text-lg mt-8" style="text-align: center;">Agregar Review y Puntuación</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-full mt-4 transition-colors duration-300">Agregar</button>
-    </form>
+    <article class="container mx-auto px-4 py-8">
+    <!-- Código existente de la plantilla -->
+    <div class="add-review">
+        
+        <h1 class="font-bold text-lg mt-8" style="text-align: center;">Agregar Review y Puntuación</h1>
+        {% if user.is_authenticated %}
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-full mt-4 transition-colors duration-300">Agregar</button>
+            </form>
+        {% else %}
+            <p class="text-center">Debes <a href="{% url 'custom_login' %}" class="text-blue-500 underline">iniciar sesión</a> para agregar una Review.</p>
+        {% endif %}
+    </div>
+    
+</article>
     </div>
     </div>
     

@@ -1,15 +1,16 @@
 from django import forms
 from .models import MovieReview
 
-class NameForm(forms.Form):
-    your_name = forms.CharField(label="Nombre", max_length=100, help_text="100 car. máximo", 
-                                    error_messages={"required": "El nombre es obligatorio"},
-                                    widget=forms.Textarea(attrs={"class":"text-gray-400", "rows": 3, "cols": 60}))
 
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=100)
+    password = forms.CharField(widget=forms.PasswordInput)
+    
 class MovieReviewForm(forms.ModelForm):
-    rating = forms.ChoiceField(choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')],
+    rating = forms.ChoiceField(choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5'), (6, '6'), (7, '7'), (8, '8'), (9, '9'), (10, '10')],
                                 label='Rating')
 
     class Meta:
         model = MovieReview
         fields = ['rating', 'review']
+        

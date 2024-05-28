@@ -5,12 +5,15 @@
 {% if movie_list %}
     <div id="movie_list" class="flex flex-wrap justify-center gap-8">
         {% for movie in movie_list %}
-            <div class="max-w-xs rounded overflow-hidden shadow-lg transition-transform duration-300 transform hover:scale-105">
+            <div class="max-w-xs rounded-full overflow-hidden shadow-lg transition-transform duration-300 transform">
                 <img class="w-full" src="/static/movies/assets/img/{{ movie.title |slugify}}.jpg" alt="{{ movie.title }} poster">
                 <div class="px-6 py-4">
                     <div class="font-bold text-xl mb-2">{{ movie.title }}</div>
+                    <p class="text-black-1000 text-base">
+                        {{ movie.release_date |date:"j. M, Y"}}
+                    </p>
                 </div>
-                <div class="px-6 pt-4 pb-2">
+                <div class="px-6 pt-4 pb-2" style="text-align: center;">
                     <a href="/movies/{{ movie.id }}/" class="inline-block bg-green-500 rounded-full px-3 py-1 text-sm font-semibold text-white mr-2 mb-2">Ver más</a>
                 </div>
             </div>
@@ -18,7 +21,7 @@
     </div>
        
     {% else %}
-        <p class="text-red-500">No hay películas disponibles.</p>
+        <p>No hay películas disponibles.</p>
     {% endif %}
 
 

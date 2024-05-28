@@ -7,7 +7,7 @@ import sys
 
 
 def add_movie(movie_id):
-    env = environ.Env()
+    env = environ.Env()b
     environ.Env.read_env('.env')
     print('API_KEY: ', env('API_KEY'))
     print('API_TOKEN: ', env('API_TOKEN'))
@@ -30,7 +30,8 @@ def add_movie(movie_id):
 
     conn = psycopg2.connect("dbname=django_test user=ubuntu password=password")
     cur = conn.cursor()
-
+    
+    '''Verificar si la película ya existe en la base de datos'''
     sql = 'SELECT * FROM movies_movie WHERE title = %s'
     cur.execute(sql, (m['title'],))
     movie_exists = cur.fetchall()

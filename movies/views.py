@@ -1,17 +1,22 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from movies.models import Movie
-from .forms import NameForm
+from movies.models import Movie #import
+from .forms import LoginForm #import
+from django.shortcuts import render, redirect #import
 from django.contrib.auth import authenticate, login, logout
 from .forms import MovieReviewForm
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Avg
+from django.db import models
+from django.views.generic import ListView
+from django.urls import reverse #import
+
 
 # Create your views here.
 
 
 def index(request):
-    movies = Movie.objects.all()
+    movies = Movie.objects.all().order_by('-release_date')
     context = {'movie_list': movies}
     return render(request, "index.html", context=context)
 
@@ -33,6 +38,7 @@ def movie_detail(request, movie_id):
 
     # Obtener todas las revisiones de la película
     reviews = movie.moviereview_set.all()
+
     
     # Calcular el promedio de las calificaciones
     average_rating = reviews.aggregate(Avg('rating'))['rating__avg']
@@ -40,28 +46,20 @@ def movie_detail(request, movie_id):
     context = {'movie': movie, 'form': form, 'average_rating': average_rating}
     return render(request, 'movie_detail.html', context)
     
-def get_name(request):
-    # if this is a POST request we need to process the form data
-    if request.method == "POST":
-        # create a form instance and populate it with data from the request:
-        form = NameForm(request.POST)
-        # check whether it's valid:
+def custom_login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
-            return render(request, "name_ok.html", {"form": form})
-        else:
-            return render(request, "name_ok.html", {"form": form})
-    # if a GET (or any other method) we'll create a blank form
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('index')  # Redirige a la página de inicio después de iniciar sesión exitosamente
     else:
-        form = NameForm()
-
-    return render(request, "name.html", {"form": form})
+        form = LoginForm()
+    return render(request, 'login.html', {'form': form})
     
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect(reverse('index'))
-   
-
+    
